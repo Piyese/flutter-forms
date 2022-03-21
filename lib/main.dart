@@ -20,6 +20,26 @@ class MyApp extends StatelessWidget {
   }
 }
 
+class Person {
+  late String name;
+  late String email;
+  late String password;
+  late String telNo;
+  late String calories;
+  Person({
+    required this.name,
+    required this.email,
+    required this.password,
+    required this.telNo,
+    required this.calories,
+  });
+
+  @override
+  String toString() {
+    return 'Person(name: $name, email: $email, tel: $telNo)';
+  }
+}
+
 class FormScreen extends StatefulWidget {
   const FormScreen({Key? key}) : super(key: key);
 
@@ -163,34 +183,50 @@ class _FormScreenState extends State<FormScreen> {
         title: const Text("Form Demo"),
       ),
       body: Container(
-        margin: const EdgeInsets.all(24),
+        margin: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: Color.fromARGB(60, 135, 220, 232),
+        ),
+        width: 300,
+        height: 600,
         child: Form(
             key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _buildName(),
-                _buildEmail(),
-                _buildPassword(),
-                _buildURL(),
-                _buildTelNo(),
-                _buildCalories(),
-                const SizedBox(height: 100),
-                ElevatedButton(
-                  onPressed: () {
-                    // if form is invalid
-                    if (!_formKey.currentState!.validate()) {
-                      print('errors my boy');
-                      return;
-                    }
-                    // else
-                    _formKey.currentState!.save();
-                    print(_email);
-                  },
-                  child: Text("Submit",
-                      style: TextStyle(color: Colors.lightBlue[50])),
-                ),
-              ],
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _buildName(),
+                  _buildEmail(),
+                  _buildPassword(),
+                  _buildURL(),
+                  _buildTelNo(),
+                  _buildCalories(),
+                  const SizedBox(height: 100),
+                  ElevatedButton(
+                    onPressed: () {
+                      // if form is invalid
+                      if (!_formKey.currentState!.validate()) {
+                        print('errors my boy');
+                        return;
+                      }
+                      // else
+                      _formKey.currentState!.save();
+                      Person p = Person(
+                          name: _name,
+                          email: _email,
+                          password: _password,
+                          telNo: _telNo,
+                          calories: _calories);
+                      print(p);
+
+                      _password = '';
+                    },
+                    child: Text("Submit",
+                        style: TextStyle(color: Colors.lightBlue[50])),
+                  ),
+                ],
+              ),
             )),
       ),
     );
